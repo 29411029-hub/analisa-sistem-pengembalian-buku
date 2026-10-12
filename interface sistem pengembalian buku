@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistem Pengembalian Buku - Tema Botanical Floral</title>
+    <!-- Google Fonts & Font Awesome Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --deep-berry: #88304E;
+            --blush-pink: #E8A0BF;
+            --soft-cream: #FFFDF9;
+            --sage-green: #527853;
+            --alert-red: #C0392B;
+            --text-dark: #2D3748;
+            --card-bg: #FFFFFF;
+            --border-color: #F1D4E5;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background-color: var(--soft-cream);
+            color: var(--text-dark);
+            padding: 20px;
+        }
+
+        /* Container Layout */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* Top Bar / Header */
+        header {
+            background: linear-gradient(135deg, var(--deep-berry), #5C2034);
+            color: white;
+            padding: 20px 30px;
+            border-radius: 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 8px 20px rgba(136, 48, 78, 0.15);
+            margin-bottom: 25px;
+        }
+
+        header h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 22px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .user-badge {
+            background-color: var(--blush-pink);
+            color: var(--deep-berry);
+            padding: 8px 16px;
+            border-radius: 30px;
+            font-weight: 600;
+            font-size: 13px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* Grid Layout */
+        .grid-dashboard {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+            margin-bottom: 25px;
+        }
+
+        /* Card Styling */
+        .card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 25px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: "🌸";
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            font-size: 60px;
+            opacity: 0.08;
+            pointer-events: none;
+        }
+
+        .card-title {
+            font-family: 'Playfair Display', serif;
+            color: var(--deep-berry);
+            font-size: 18px;
+            margin-bottom: 18px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 8px;
+        }
+
+        /* Stat Cards */
+        .stats-wrapper {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .stat-card {
+            background-color: #FAF0F4;
+            border-left: 4px solid var(--deep-berry);
+            padding: 15px;
+            border-radius: 10px;
+        }
+
+        .stat-card.green {
+            background-color: #F0F7F1;
+            border-left-color: var(--sage-green);
+        }
+
+        .stat-card.red {
+            background-color: #FDEDEC;
+            border-left-color: var(--alert-red);
+        }
+
+        .stat-card h4 {
+            font-size: 12px;
+            color: #666;
+            text-transform: uppercase;
+        }
+
+        .stat-card p {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin-top: 5px;
+        }
+
+        /* Form Elements */
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 13px;
+            font-weight: 500;
+            margin-bottom: 6px;
+            color: #555;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 10px 14px;
+            border: 1px solid #E2E8F0;
+            border-radius: 8px;
+            font-size: 14px;
+            outline: none;
+            transition: 0.3s;
+        }
+
+        .form-control:focus {
+            border-color: var(--deep-berry);
+            box-shadow: 0 0 0 3px rgba(136, 48, 78, 0.1);
+        }
+
+        /* Dynamic Calculation Box */
+        .calc-box {
+            background-color: #FFF8FA;
+            border: 1px dashed var(--blush-pink);
+            border-radius: 10px;
+            padding: 15px;
+            margin-top: 15px;
+        }
+
+        .calc-row {
+            display: flex;
+            justify-content: space-between;
+            font-size: 13px;
+            margin-bottom: 8px;
+        }
+
+        .calc-row.total {
+            border-top: 1px solid var(--border-color);
+            padding-top: 8px;
+            font-weight: 700;
+            color: var(--alert-red);
+            font-size: 15px;
+        }
+
+        /* Buttons */
+        .btn-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .btn-primary {
+            background-color: var(--sage-green);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: #416142;
+        }
+
+        .btn-secondary {
+            background-color: #E2E8F0;
+            color: var(--text-dark);
+        }
+
+        /* Data Tables */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+        }
+
+        th, td {
+            padding: 12px 10px;
+            text-align: left;
+            border-bottom: 1px solid #F0F0F0;
+        }
+
+        th {
+            background-color: #FAF0F4;
+            color: var(--deep-berry);
+            font-weight: 600;
+        }
+
+        .badge-status {
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        .badge-danger {
+            background-color: #FDEDEC;
+            color: var(--alert-red);
+        }
+
+        .badge-success {
+            background-color: #E8F8F5;
+            color: var(--sage-green);
+        }
+
+        /* WhatsApp Mockup Box */
+        .wa-box {
+            background-color: #E5DDD5;
+            border-radius: 12px;
+            padding: 15px;
+            font-size: 13px;
+            background-image: radial-gradient(#d3c8be 1px, transparent 1px);
+            background-size: 10px 10px;
+        }
+
+        .wa-bubble {
+            background-color: #FFFFFF;
+            border-radius: 0px 12px 12px 12px;
+            padding: 12px;
+            max-width: 90%;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+            line-height: 1.5;
+        }
+
+        @media (max-width: 768px) {
+            .grid-dashboard, .stats-wrapper {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+
+    <!-- Header Section -->
+    <header>
+        <h1><i class="fa-solid font-awesome-logo-full">🌸</i> Sistem Informasi Perpustakaan Floral</h1>
+        <div class="user-badge">
+            <i class="fa-solid fa-user-gear"></i> Staf: Selfiana B. (NPM: 29411029)
+        </div>
+    </header>
+
+    <!-- Ringkasan Statistik -->
+    <div class="stats-wrapper">
+        <div class="stat-card">
+            <h4>Buku Dipinjam Hari Ini</h4>
+            <p>42 Buku</p>
+        </div>
+        <div class="stat-card green">
+            <h4>Jatuh Tempo Hari Ini (H-0)</h4>
+            <p>8 Buku</p>
+        </div>
+        <div class="stat-card red">
+            <h4>Terlambat / Menunggak</h4>
+            <p>5 Buku</p>
+        </div>
+    </div>
+
+    <!-- Main Grid Dashboard -->
+    <div class="grid-dashboard">
+
+        <!-- Column 1: Form Transaksi Pengembalian Buku -->
+        <div class="card">
+            <div class="card-title">
+                <i class="fa-solid fa-receipt"></i> Form Pengembalian & Perhitungan Denda
+            </div>
+
+            <div class="form-group">
+                <label><i class="fa-solid fa-id-card"></i> NPM / Nama Mahasiswa</label>
+                <input type="text" class="form-control" value="29411029 - Selfiana B." readonly>
+            </div>
+
+            <div class="form-group">
+                <label><i class="fa-solid fa-book"></i> Kode / Judul Buku</label>
+                <input type="text" class="form-control" value="BK-088 - Design Patterns Perangkat Lunak" readonly>
+            </div>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                <div class="form-group">
+                    <label>Tanggal Pinjam</label>
+                    <input type="date" class="form-control" value="2026-10-03" readonly>
+                </div>
+                <div class="form-group">
+                    <label>Batas Jatuh Tempo</label>
+                    <input type="date" class="form-control" value="2026-10-10" readonly>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Tanggal Dikembalikan (Hari Ini)</label>
+                <input type="date" class="form-control" value="2026-10-12">
+            </div>
+
+            <!-- Dynamic Logic Box -->
+            <div class="calc-box">
+                <div class="calc-row">
+                    <span>Status Keterlambatan:</span>
+                    <span style="color: var(--alert-red); font-weight: 600;">2 Hari Terlambat</span>
+                </div>
+                <div class="calc-row">
+                    <span>Tarif Denda / Hari:</span>
+                    <span>Rp 1.000</span>
+                </div>
+                <div class="calc-row total">
+                    <span>Total Denda Administrasi:</span>
+                    <span>Rp 2.000</span>
+                </div>
+            </div>
+
+            <div class="btn-group">
+                <button class="btn btn-primary"><i class="fa-solid fa-check"></i> Selesaikan & Cetak Struk</button>
+                <button class="btn btn-secondary"><i class="fa-solid fa-xmark"></i> Batal</button>
+            </div>
+        </div>
+
+        <!-- Column 2: Pesan Otomatis WhatsApp Gateway -->
+        <div class="card">
+            <div class="card-title">
+                <i class="fa-brands fa-whatsapp"></i> Notifikasi Otomatis (WhatsApp Service)
+            </div>
+
+            <p style="font-size: 12px; color: #666; margin-bottom: 12px;">
+                Pesan pengingat otomatis yang dikirimkan oleh sistem (cron-job) kepada peminjam sebelum tanggal jatuh tempo:
+            </p>
+
+            <div class="wa-box">
+                <div class="wa-bubble">
+                    <strong>🌸 [PERPUSTAKAAN BOTANICAL CAMPUS] 🌸</strong><br><br>
+                    Halo, <strong>Selfiana B.</strong> (NPM: 29411029),<br><br>
+                    Mengingatkan bahwa masa peminjaman buku berikut akan berakhir <strong>HARI INI</strong>:<br>
+                    📖 <i>Analisa Kebutuhan Sistem</i><br>
+                    📅 Jatuh Tempo : 12 Oktober 2026<br><br>
+                    Mohon segera melakukan pengembalian di loket perpustakaan sebelum pukul 16.00 WIB untuk menghindari denda keterlambatan. 🌿
+                    <div style="font-size: 10px; color: #888; text-align: right; margin-top: 5px;">08.00 WIB ✔✔</div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Table Section: Real-time Monitoring -->
+    <div class="card">
+        <div class="card-title">
+            <i class="fa-solid fa-list-check"></i> Pemantauan Keterlambatan Real-Time
+        </div>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>ID Pinjam</th>
+                    <th>Nama Mahasiswa</th>
+                    <th>Judul Buku</th>
+                    <th>Tgl Kembali</th>
+                    <th>Keterlambatan</th>
+                    <th>Estimasi Denda</th>
+                    <th>Aksi</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>PJM-2026-001</td>
+                    <td>Rina Anggraini</td>
+                    <td>Analisa Kebutuhan Sistem</td>
+                    <td>10 Oct 2026</td>
+                    <td><span class="badge-status badge-danger">2 Hari</span></td>
+                    <td>Rp 2.000</td>
+                    <td><button class="btn btn-primary" style="padding: 4px 10px; font-size: 11px;">Proses</button></td>
+                </tr>
+                <tr>
+                    <td>PJM-2026-004</td>
+                    <td>Budi Pratama</td>
+                    <td>Algoritma & Pemrograman</td>
+                    <td>12 Oct 2026</td>
+                    <td><span class="badge-status badge-success">0 Hari (Hari Ini)</span></td>
+                    <td>Rp 0</td>
+                    <td><button class="btn btn-primary" style="padding: 4px 10px; font-size: 11px;">Proses</button></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+</div>
+
+</body>
+</html>
